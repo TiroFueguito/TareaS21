@@ -26,7 +26,6 @@ if (isset($_GET['calendar'])) {
 	$materiaSelected = $_GET['materiaSelected'];
 
 	$sql = "SELECT id, fecha_ini, fecha_fin FROM CURSADAS WHERE id_materia = " . $materiaSelected . " AND MONTH('" . $dateSelected . "') BETWEEN MONTH(fecha_ini) AND MONTH(fecha_fin);";
-
 	$result = $db->conn->query($sql);
 
 	//crea el calendario

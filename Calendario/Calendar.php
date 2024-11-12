@@ -1,6 +1,5 @@
 <?php
 class Calendar{
-	//ATRIBUTOS
 	//datos para la creacion del mes que va a mostrar
 	private $firstDay;
 	private $lastDay;
@@ -10,11 +9,6 @@ class Calendar{
 	private $flagList;	
 	//bandera 0 nada 1 pinta
 
-	//estilo
-	//color que usa para pintar en los dias marcados
-	private $flagColor = 'red';
-
-	//CONSTRUCTOR
 	function __construct($date){
 		$this->firstDay = date('Y-m-01', strtotime($date));
 		$this->lastDay = date('Y-m-t', strtotime($date));
@@ -24,25 +18,6 @@ class Calendar{
 		for ($i=1; $i <= $this->numDays; $i++) $this->flagList[$i] = 0;
 	}
 
-	//FUNCIONES PRIVADAS
-	private function flagToColor($flag){		
-		$tempColor = 'style="color:' . $flagColor . ';"';
-		//marca con color
-		switch ($flag) {
-			case 0:
-				return '<b ' . $tempColor . '>0</b>'; //quitar el 0 porque es vacio
-				break;
-			case 1:
-				return '<b ' . $tempColor . '>1</b>';
-				break;
-
-			default:
-				return '<b>Si ves esto, avisá a alguien 😂</b>';
-				break;
-		}
-	}	
-
-	//FUNCIONES PÚBLICAS
 	public function SetFlag($dateStart, $dateEnd){
 		//se encarga de marcar los dias y pone una bandera
 
@@ -58,7 +33,7 @@ class Calendar{
 			//recorre marcando dias
 			for ($i=$dayStart; $i <= $dayEnd; $i++) $this->flagList[$i] = 1;
 		}else{
-			//sino solo recorre hasta el final marcando solo dias ocupados
+			//sino solo recorre hasta el final marcando 
 			$dayEnd = $this->numDays;
 			for ($i=$dayStart; $i <= $dayEnd; $i++) $this->flagList[$i] = 1;
 		}
@@ -78,7 +53,11 @@ class Calendar{
 			if ($i < $firstDayOfMonth) {
 				echo '<td></td>';
 			}else{
-				echo '<td> ' . '<h4>' . $currentDay . '</h4>' . '<h4>' . $this->flagToColor($this->flagList[$currentDay]) . '</h4>' . ' </td>';
+				if ($this->flagList[$currentDay] == 1) {
+					echo '<td style="background-color: #ffeb99;"><h4>' . $currentDay . '</h4></td>';
+				}else{
+					echo '<td><h4>' . $currentDay . '</h4></td>';
+				}				
 				$currentDay++;
 			}
 		}
@@ -91,7 +70,11 @@ class Calendar{
 				if ($currentDay > $this->numDays) {
 					echo '<td></td>';
 				}else{
-					echo '<td> ' . '<h4>' . $currentDay . '</h4>' . '<h4>' . $this->flagToColor($this->flagList[$currentDay]) . '</h4>' . ' </td>';
+					if ($this->flagList[$currentDay] == 1) {
+						echo '<td style="background-color: #ffeb99;"><h4>' . $currentDay . '</h4></td>';
+					}else{
+						echo '<td><h4>' . $currentDay . '</h4></td>';
+					}
 					$currentDay++;
 				}
 			}
