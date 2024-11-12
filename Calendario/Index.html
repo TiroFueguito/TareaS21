@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Calendario de materias</h2>
+    <hr>
+    <h3><b>Almanaque</b></h3>
+    <p>Seleccione una fecha para ver el mes en el almaque y una materia para que muestre los dias de cursada</p>
+
+    <label>Mes:</label><input type="date" format="yyyy-MM-dd" id="calendarDateInput" onchange="CalendarChange()">
+    <div id="divMateriaFilter">
+        <label>Materia:</label><input type="text" value="0" id="materiaInput" onchange="CalendarChange()"> 
+    </div>
+    <div id="divCalendar">
+        <p>No hay fecha seleccionadada</p>
+    </div>
+
+    
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var xmlhttpUrl = "CalendarApp.php?materiaInput=1";
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function(){
+        document.getElementById("divMateriaFilter").innerHTML = this.responseText; 
+    }
+    xmlhttp.open("GET", xmlhttpUrl);
+    xmlhttp.send();
+
+
+    function CalendarChange() {
+        var materiaInput = document.getElementById("materiaInput");
+        var calendarDateInput =  document.getElementById("calendarDateInput");
+        materiaInput.disabled = true;
+        calendarDateInput.disabled = true;
+
+        //carga el calendario
+        var xmlhttpUrl = "CalendarApp.php?calendar=1&dateSelected=" + calendarDateInput.value + "&materiaSelected=" + materiaInput.value;
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = function(){
+            document.getElementById("divCalendar").innerHTML = this.responseText; 
+            document.getElementById("materiaInput").disabled = false; 
+            document.getElementById("calendarDateInput").disabled = false;
+        }
+        xmlhttp.open("GET", xmlhttpUrl);
+        xmlhttp.send();
+    }
+
+</script>
